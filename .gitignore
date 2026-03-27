@@ -1,0 +1,14 @@
+# CLion
+.idea/
+
+# CMake
+cmake-build-*/
+
+# Mac
+.DS_Store
+
+# C++ build files
+*.o
+*.out
+*.exe
+a.out
