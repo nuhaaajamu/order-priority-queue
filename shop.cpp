@@ -1,21 +1,34 @@
 // CMSC 341 - Spring 2026 - Project 3
 #include "shop.h"
 Shop::Shop(){ // empty object
-
+  m_shopID = 0;
+  m_heap = nullptr;
+  m_size = 0;
+  m_priorFunc = nullptr;
+  m_heapType = NOTYPE;
+  m_structure = NOSTRUCT;
+  m_regPrior = 0;
 }
-Shop::Shop(prifn_t priFn, HEAPTYPE heapType,
-          STRUCTURE structure, int regPrior,
-          int id)
-{
 
+Shop::Shop(prifn_t priFn, HEAPTYPE heapType, STRUCTURE structure, int regPrior, int id){
+  m_priorFunc = priFn;
+  m_heapType = heapType;
+  m_structure = structure;
+  m_regPrior = regPrior;
+  m_shopID = id;
+  m_size = 0;
+  m_heap = nullptr;
 }
+
 Shop::~Shop()
 {
 
 }
+
 void Shop::clear() {
 
 }
+
 Shop::Shop(const Shop& rhs)
 {
 
@@ -24,6 +37,7 @@ Shop::Shop(const Shop& rhs)
 Shop& Shop::operator=(const Shop& rhs) {
 
 }
+
 void Shop::mergeWithQueue(Shop& rhs) {
 
 }
@@ -36,24 +50,31 @@ int Shop::numOrders() const
 {
 
 }
+
 prifn_t Shop::getPriorityFn() const {
 
 }
+
 Order Shop::getNextOrder() {
 
 }
+
 void Shop::setPriorityFn(prifn_t priFn, HEAPTYPE heapType) {
 
 }
+
 void Shop::setStructure(STRUCTURE structure){
 
 }
+
 HEAPTYPE Shop::getHeapType() const {
 
 }
+
 STRUCTURE Shop::getStructure() const {
 
 }
+
 void Shop::printOrdersQueue() const {
 
 }
