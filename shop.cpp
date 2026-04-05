@@ -46,14 +46,9 @@ bool Shop::insertOrder(const Order& order) {
 
 }
 
-int Shop::numOrders() const
-{
+int Shop::numOrders() const{return m_size;}
 
-}
-
-prifn_t Shop::getPriorityFn() const {
-
-}
+prifn_t Shop::getPriorityFn() const {return m_priorFunc;}
 
 Order Shop::getNextOrder() {
 
@@ -67,13 +62,9 @@ void Shop::setStructure(STRUCTURE structure){
 
 }
 
-HEAPTYPE Shop::getHeapType() const {
+HEAPTYPE Shop::getHeapType() const {return m_heapType;}
 
-}
-
-STRUCTURE Shop::getStructure() const {
-
-}
+STRUCTURE Shop::getStructure() const {return m_structure;}
 
 void Shop::printOrdersQueue() const {
 
