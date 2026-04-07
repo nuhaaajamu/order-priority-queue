@@ -48,10 +48,19 @@ Order* Shop::mergeOperation(Order* h1, Order* h2) {
     return h1;
   }
 
+  // Ensure that heap types and structure are valid before proceeding.
+  if (m_heapType != MINHEAP && m_heapType != MAXHEAP) {
+    throw std::domain_error("Error: Invalid heap type");
+  }
+
+  if (m_structure != SKEW && m_structure != LEFTIST) {
+    throw std::domain_error("Error: Invalid stucture type");
+  }
+
   Order* higherPrior = nullptr;
   Order* lowerPrior = nullptr;
 
-  int h1Prior = m_priorFunc(*h1);
+  int h1Prior = m_priorFunc(*h1);   // Priority values for both heaps.
   int h2Prior = m_priorFunc(*h2);
 
   // Smaller value is higher priority.
@@ -78,25 +87,45 @@ Order* Shop::mergeOperation(Order* h1, Order* h2) {
     }
   }
 
-  // Store right and left children of node with higher priority for easier reference.
-  Order* right = higherPrior->m_right;
-  Order* left = higherPrior->m_left;
-
   // Recursive call on higher priority node's right child.
-  mergeOperation(right, lowerPrior);
+  higherPrior->m_right = mergeOperation(higherPrior->m_right, lowerPrior);
 
   // Swap the children of the higher priority node for a skew heap. This is done every recursive call.
   if (m_structure == SKEW) {
-    higherPrior->m_right = left;
-    higherPrior->m_left = right;
+    Order * currentRight = higherPrior->m_right;
+    higherPrior->m_right = higherPrior->m_left;
+    higherPrior->m_left = currentRight;
   }
 
   // Swap the children of the higher priority node for a leftist heap.
   // This is only done if the right subtree is heavier than the left.
   if (m_structure == LEFTIST) {
-    if (left->m_npl < right->m_npl) {
-      higherPrior->m_right = left;
-      higherPrior->m_left = right;
+    Order * currentRight = higherPrior->m_right;
+
+    if (higherPrior->m_right != nullptr && higherPrior->m_left == nullptr) {
+      higherPrior->m_right = higherPrior->m_left;
+      higherPrior->m_left = currentRight;
+
+    }else if (higherPrior->m_left != nullptr && higherPrior->m_right != nullptr) {
+      if (higherPrior->m_left->m_npl < higherPrior->m_right->m_npl) {
+        higherPrior->m_right = higherPrior->m_left;
+        higherPrior->m_left = currentRight;
+      }
+    }
+
+    // Re-calculate NPL values each time.
+
+    // If either child does not exist the npl will be zero.
+    if (higherPrior->m_right == nullptr || higherPrior->m_left == nullptr) {
+      higherPrior->m_npl = 0;
+
+    // If both children exist, we use the child with the smaller NPL value.
+    }else {
+      if (higherPrior->m_right->m_npl < higherPrior->m_left->m_npl) {
+        higherPrior->m_npl = higherPrior->m_right->m_npl + 1;
+      }else {
+        higherPrior->m_npl = higherPrior->m_left->m_npl + 1;
+      }
     }
   }
 
