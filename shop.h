@@ -173,14 +173,10 @@ class Shop{
      * Private function declarations go here! *
      ******************************************/
 
-    // Performs merge operations.
-    Order* mergeOperation(Order* h1, Order* h2);
-
-    // Performs rebuild operations.
-    void rebuildOperation(Order* node);
-
-    // Prints data from nodes in pre-order traversal.
-    void print(Order* node) const;
+    Order* mergeOperation(Order* h1, Order* h2); // Performs merge operations.
+    void rebuildOperation(Order* node);          // Performs rebuild operations.
+    void print(Order* node) const;               // Prints data from nodes in pre-order traversal.
+    void clearOperation(Order* node);
 };
 
 class Region{
