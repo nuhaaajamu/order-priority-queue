@@ -254,8 +254,11 @@ void Shop::print(Order* node) const{
   print(node->m_right);
 }
 
-// Use preorder traversal.
 void Shop::printOrdersQueue() const {
+  cout << "Contents of the queue:" << endl;
+
+  // Print data of queue using pre-order traversal.
+  print(m_heap);
 }
 
 void Shop::dump() const {
