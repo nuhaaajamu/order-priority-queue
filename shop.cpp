@@ -187,15 +187,38 @@ Order Shop::getNextOrder() {
   return nextOrder;
 }
 
+void Shop::rebuildOperation(Order* node) {
+  // Base case
+  if (node == nullptr) {
+    return;
+  }
 
-// Must rebuild.
+  // Store children of node before detachment.
+  Order* left = node->m_left;
+  Order* right = node->m_right;
+
+  // Now, detach node from children so that it becomes a single node.
+  node->m_right = nullptr;
+  node->m_left = nullptr;
+  node->m_npl = 0;
+
+  // Merge the detached node into the new heap using the updated priority and structure.
+  m_heap = mergeOperation(m_heap, node);
+
+  // Recursively rebuild.
+  rebuildOperation(left);
+  rebuildOperation(right);
+}
+
+
 void Shop::setPriorityFn(prifn_t priFn, HEAPTYPE heapType) {
-
 }
 
 // Must rebuild.
 void Shop::setStructure(STRUCTURE structure){
+  // Update m_structure
 
+  // Call on helper function
 }
 
 HEAPTYPE Shop::getHeapType() const {return m_heapType;}
