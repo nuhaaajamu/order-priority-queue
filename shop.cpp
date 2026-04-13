@@ -37,7 +37,17 @@ void Shop::clearOperation(Order *node) {
 }
 
 void Shop::clear() {
+  // De-allocate the heap of order nodes.
+  clearOperation(m_heap);
 
+  // Re-initialize the rest of the member variables.
+  m_shopID = 0;
+  m_heap = nullptr;
+  m_size = 0;
+  m_priorFunc = nullptr;
+  m_heapType = NOTYPE;
+  m_structure = NOSTRUCT;
+  m_regPrior = 0;
 }
 
 Shop::Shop(const Shop& rhs)
@@ -154,6 +164,7 @@ void Shop::mergeWithQueue(Shop& rhs) {
 }
 
 bool Shop::insertOrder(const Order& order) {
+  // Ensure that the priority value is valid.
   int priority = m_priorFunc(order);
   if (priority <= 0) {
     return false;
