@@ -25,6 +25,17 @@ Shop::~Shop()
 
 }
 
+void Shop::clearOperation(Order *node) {
+  if (node == nullptr) {
+    return;
+  }
+
+  // Use post-order traversal to de-allocate the nodes.
+  clearOperation(node->m_left);
+  clearOperation(node->m_right);
+  delete node;
+}
+
 void Shop::clear() {
 
 }
