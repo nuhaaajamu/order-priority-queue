@@ -175,7 +175,9 @@ class Shop{
 
     // Helper for mergeWithQueue()
     Order* mergeOperation(Order* h1, Order* h2);
+    void rebuildOperation(Order* node);
 };
+
 class Region{
     public:
     friend class Grader; // for grading purposes
