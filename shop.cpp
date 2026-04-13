@@ -48,15 +48,6 @@ Order* Shop::mergeOperation(Order* h1, Order* h2) {
     return h1;
   }
 
-  // Ensure that heap types and structure are valid before proceeding.
-  if (m_heapType != MINHEAP && m_heapType != MAXHEAP) {
-    throw std::domain_error("Error: Invalid heap type");
-  }
-
-  if (m_structure != SKEW && m_structure != LEFTIST) {
-    throw std::domain_error("Error: Invalid stucture type");
-  }
-
   Order* higherPrior = nullptr;
   Order* lowerPrior = nullptr;
 
@@ -65,23 +56,20 @@ Order* Shop::mergeOperation(Order* h1, Order* h2) {
 
   // Smaller value is higher priority.
   if (m_heapType == MINHEAP) {
-    // Compare roots to determine node with the higher priority.
     if (h1Prior <= h2Prior) {
       higherPrior = h1;
       lowerPrior = h2;
-    }else {
+    } else {
       higherPrior = h2;
       lowerPrior = h1;
     }
-  }
 
   // Larger value is higher priority.
-  if (m_heapType == MAXHEAP) {
-    // Compare roots to determine node with the higher priority.
+  } else {
     if (h1Prior >= h2Prior) {
       higherPrior = h1;
       lowerPrior = h2;
-    }else {
+    } else {
       higherPrior = h2;
       lowerPrior = h1;
     }
@@ -90,49 +78,37 @@ Order* Shop::mergeOperation(Order* h1, Order* h2) {
   // Recursive call on higher priority node's right child.
   higherPrior->m_right = mergeOperation(higherPrior->m_right, lowerPrior);
 
-  // Swap the children of the higher priority node for a skew heap. This is done every recursive call.
+  // Swap the children of the higher priority node for a skew heap.
   if (m_structure == SKEW) {
-    Order * currentRight = higherPrior->m_right;
+    Order* currentRight = higherPrior->m_right;
     higherPrior->m_right = higherPrior->m_left;
     higherPrior->m_left = currentRight;
   }
 
   // Swap the children of the higher priority node for a leftist heap.
-  // This is only done if the right subtree is heavier than the left.
   if (m_structure == LEFTIST) {
-    Order * currentRight = higherPrior->m_right;
+    Order* currentRight = higherPrior->m_right;
 
-    if (higherPrior->m_right != nullptr && higherPrior->m_left == nullptr) {
+    if (higherPrior->m_left == nullptr) {
       higherPrior->m_right = higherPrior->m_left;
       higherPrior->m_left = currentRight;
 
-    }else if (higherPrior->m_left != nullptr && higherPrior->m_right != nullptr) {
-      if (higherPrior->m_left->m_npl < higherPrior->m_right->m_npl) {
-        higherPrior->m_right = higherPrior->m_left;
-        higherPrior->m_left = currentRight;
-      }
+    } else if (higherPrior->m_right != nullptr && (higherPrior->m_left->m_npl < higherPrior->m_right->m_npl)) {
+      higherPrior->m_right = higherPrior->m_left;
+      higherPrior->m_left = currentRight;
     }
 
-    // Re-calculate NPL values each time.
-
-    // If either child does not exist the npl will be zero.
-    if (higherPrior->m_right == nullptr || higherPrior->m_left == nullptr) {
+    // Re-calculate NPL value.
+    if (higherPrior->m_right == nullptr) {
       higherPrior->m_npl = 0;
-
-    // If both children exist, we use the child with the smaller NPL value.
-    }else {
-      if (higherPrior->m_right->m_npl < higherPrior->m_left->m_npl) {
-        higherPrior->m_npl = higherPrior->m_right->m_npl + 1;
-      }else {
-        higherPrior->m_npl = higherPrior->m_left->m_npl + 1;
-      }
+    } else {
+      higherPrior->m_npl = higherPrior->m_right->m_npl + 1;
     }
   }
 
   // Return the root.
   return higherPrior;
 }
-
 
 void Shop::mergeWithQueue(Shop& rhs) {
 
