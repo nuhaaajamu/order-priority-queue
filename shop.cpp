@@ -235,9 +235,27 @@ HEAPTYPE Shop::getHeapType() const {return m_heapType;}
 
 STRUCTURE Shop::getStructure() const {return m_structure;}
 
+void Shop::print(Order* node) const{
+  // Base Case
+  if (node == nullptr) {
+    return;
+  }
+
+  // Calculate priority value and print data.
+  int priorityVal = m_priorFunc(*node);
+  cout << "[" << priorityVal << "] "
+       << "Order ID: " << node->getOrderID()
+       << ", item: " << node->getItem()
+       << ", count: " << node->getCount()
+       << endl;
+
+  // Recursively print the data in pre-order traversal.
+  print(node->m_left);
+  print(node->m_right);
+}
+
 // Use preorder traversal.
 void Shop::printOrdersQueue() const {
-
 }
 
 void Shop::dump() const {
