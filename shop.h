@@ -127,7 +127,6 @@ class Order{
     Order * m_right;    // right child
     Order * m_left;     // left child
     int m_npl;          // null path length for leftist heap
-
 };
 
 class Shop{
@@ -174,6 +173,8 @@ class Shop{
      * Private function declarations go here! *
      ******************************************/
 
+    // Helper for mergeWithQueue()
+    Order* mergeOperation(Order* h1, Order* h2);
 };
 class Region{
     public:
