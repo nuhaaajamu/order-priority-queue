@@ -110,14 +110,45 @@ Order* Shop::mergeOperation(Order* h1, Order* h2) {
   return higherPrior;
 }
 
-void Shop::mergeWithQueue(Shop& rhs) {
 
+void Shop::mergeWithQueue(Shop& rhs) {
+  // Protect against self-merge.
+  if (this == &rhs) {
+    return;
+  }
+
+  // Queues must have the same heap types.
+  if (m_heapType != rhs.m_heapType) {
+    throw std::domain_error("Error: Different heap types");
+  }
+
+  // Queues must use the same priority function.
+  if (m_priorFunc != rhs.m_priorFunc) {
+    throw std::domain_error("Error: Different priority functions");
+  }
+
+  // Queues must use the same structure.
+  if (m_structure != rhs.m_structure) {
+    throw std::domain_error("Error: Different structures");
+  }
+
+  // Merge the heaps.
+  m_heap = mergeOperation(m_heap, rhs.m_heap);
+
+  // Update sizes.
+  m_size += rhs.m_size;
+
+  // Leave rhs empty.
+  rhs.m_heap = nullptr;
+  rhs.m_size = 0;
 }
+
 
 // Must use merge.
 bool Shop::insertOrder(const Order& order) {
 
 }
+
 
 int Shop::numOrders() const{return m_size;}
 prifn_t Shop::getPriorityFn() const {return m_priorFunc;}
