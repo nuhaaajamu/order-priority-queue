@@ -110,7 +110,6 @@ Order* Shop::mergeOperation(Order* h1, Order* h2) {
   return higherPrior;
 }
 
-
 void Shop::mergeWithQueue(Shop& rhs) {
   // Protect against self-merge.
   if (this == &rhs) {
@@ -143,7 +142,6 @@ void Shop::mergeWithQueue(Shop& rhs) {
   rhs.m_size = 0;
 }
 
-
 bool Shop::insertOrder(const Order& order) {
   int priority = m_priorFunc(order);
   if (priority <= 0) {
@@ -159,14 +157,36 @@ bool Shop::insertOrder(const Order& order) {
   return true;
 }
 
-
 int Shop::numOrders() const{return m_size;}
+
 prifn_t Shop::getPriorityFn() const {return m_priorFunc;}
 
-// Must use merge.
 Order Shop::getNextOrder() {
+  // Ensure that the queue is not empty.
+  if (m_heap == nullptr) {
+    throw std::out_of_range("Error: Queue is empty");
+  }
 
+  // Store the root (highest priority order).
+  Order nextOrder = *m_heap;
+
+  // Store the left and right subtrees that will be needed to rebuild the heap.
+  Order* h1 = m_heap->m_left;
+  Order* h2 = m_heap->m_right;
+
+  // Now delete the root.
+  delete m_heap;
+
+  // We must re-build the heap since the root was deleted.
+  m_heap = mergeOperation(h1, h2);
+
+  // Update the size.
+  m_size--;
+
+  // Get the highest priority order from the queue.
+  return nextOrder;
 }
+
 
 // Must rebuild.
 void Shop::setPriorityFn(prifn_t priFn, HEAPTYPE heapType) {
