@@ -243,11 +243,7 @@ void Shop::print(Order* node) const{
 
   // Calculate priority value and print data.
   int priorityVal = m_priorFunc(*node);
-  cout << "[" << priorityVal << "] "
-       << "Order ID: " << node->getOrderID()
-       << ", item: " << node->getItem()
-       << ", count: " << node->getCount()
-       << endl;
+  cout << "[" << priorityVal << "] " << *node << endl;
 
   // Recursively print the data in pre-order traversal.
   print(node->m_left);
