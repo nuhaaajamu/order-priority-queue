@@ -173,9 +173,14 @@ class Shop{
      * Private function declarations go here! *
      ******************************************/
 
-    // Helper for mergeWithQueue()
+    // Performs merge operations.
     Order* mergeOperation(Order* h1, Order* h2);
+
+    // Performs rebuild operations.
     void rebuildOperation(Order* node);
+
+    // Prints data from nodes in pre-order traversal.
+    void print(Order* node) const;
 };
 
 class Region{
