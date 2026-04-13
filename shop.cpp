@@ -210,23 +210,25 @@ void Shop::rebuildOperation(Order* node) {
   rebuildOperation(right);
 }
 
-
 void Shop::setPriorityFn(prifn_t priFn, HEAPTYPE heapType) {
   // Save original heap and update priority/heap structure before rebuilding.
-  Order * originalHeap = m_heap;
+  Order* originalHeap = m_heap;
   m_heap = nullptr;
   m_priorFunc = priFn;
   m_heapType = heapType;
 
-  // Call on helper function
+  // Call on helper function to rebuild the heap.
   rebuildOperation(originalHeap);
 }
 
-// Must rebuild.
 void Shop::setStructure(STRUCTURE structure){
-  // Update m_structure
+  // Save original heap and update structure before rebuilding.
+  Order* originalHeap = m_heap;
+  m_heap = nullptr;
+  m_structure = structure;
 
-  // Call on helper function
+  // Call on helper function to rebuild the heap.
+  rebuildOperation(originalHeap);
 }
 
 HEAPTYPE Shop::getHeapType() const {return m_heapType;}
