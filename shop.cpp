@@ -212,6 +212,14 @@ void Shop::rebuildOperation(Order* node) {
 
 
 void Shop::setPriorityFn(prifn_t priFn, HEAPTYPE heapType) {
+  // Save original heap and update priority/heap structure before rebuilding.
+  Order * originalHeap = m_heap;
+  m_heap = nullptr;
+  m_priorFunc = priFn;
+  m_heapType = heapType;
+
+  // Call on helper function
+  rebuildOperation(originalHeap);
 }
 
 // Must rebuild.
