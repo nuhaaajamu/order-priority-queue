@@ -144,9 +144,19 @@ void Shop::mergeWithQueue(Shop& rhs) {
 }
 
 
-// Must use merge.
 bool Shop::insertOrder(const Order& order) {
+  int priority = m_priorFunc(order);
+  if (priority <= 0) {
+    return false;
+  }
 
+  // Create node to insert.
+  Order* newNode = new Order(order.getItem(),order.getCount(),order.getMemebership(),order.getPoints(),order.getCustomerID(),order.getOrderID());
+
+  // Add the order to the queue.
+  m_heap = mergeOperation(m_heap, newNode);
+  m_size++;
+  return true;
 }
 
 
