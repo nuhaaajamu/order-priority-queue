@@ -207,5 +207,6 @@ class Region{
      * Private function declarations go here! *
      ******************************************/
 
+    void upHeap(int index); // Helper for addShop() - performs up-heap sorting of array.
 };
 #endif
