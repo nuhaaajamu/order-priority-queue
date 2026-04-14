@@ -348,7 +348,10 @@ Region::Region(int size){
 }
 
 Region::~Region() {
-
+  delete [] m_heap;
+  m_heap = nullptr;
+  m_size = 0;
+  m_capacity = 0;
 }
 
 bool Region::addShop(Shop & aShop){
