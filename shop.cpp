@@ -432,7 +432,34 @@ bool Region::getShop(Shop & aShop){
 }
 
 bool Region::getNthShop(Shop & aShop, int n){
+  // Ensure that (n) is within valid bounds.
+  if (n <= 0 || n > m_size) {
+    return false;
+  }
 
+  // We cannot retrieve an element from an empty array.
+  if (m_size == 0) {
+    return false;
+  }
+
+  // Store the first (n-1) removed shops temporarily.
+  Shop* tempArray = new Shop[n - 1];
+
+  // Remove the first (n-1) highest priority shops and store them.
+  for (int i = 0; i < n - 1; i++) {
+    getShop(tempArray[i]);
+  }
+
+  // The next removed shop is the n-th highest priority shop.
+  getShop(aShop);
+
+  // Re-insert the previously removed shops back into the heap.
+  for (int i = 0; i < n - 1; i++) {
+    addShop(tempArray[i]);
+  }
+
+  delete [] tempArray;
+  return true;
 }
 
 bool Region::setPriorityFn(prifn_t priFn, HEAPTYPE heapType, int n){
