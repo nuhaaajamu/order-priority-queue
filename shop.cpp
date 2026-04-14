@@ -372,7 +372,18 @@ void Region::upHeap(int index) {
 }
 
 bool Region::addShop(Shop & aShop){
+  // Ensure that heap is not full.
+  if (m_size == m_capacity) {
+    return false;
+  }
 
+  // Insert the object at the end of the array.
+  m_size++;
+  m_heap[m_size] = aShop;
+
+  // Sort the array to re-establish heap property.
+  upHeap(m_size);
+  return true;
 }
 
 bool Region::getShop(Shop & aShop){
