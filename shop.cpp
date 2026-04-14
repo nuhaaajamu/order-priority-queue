@@ -20,12 +20,9 @@ Shop::Shop(prifn_t priFn, HEAPTYPE heapType, STRUCTURE structure, int regPrior, 
   m_heap = nullptr;
 }
 
-Shop::~Shop()
-{
+Shop::~Shop(){clear();}
 
-}
-
-void Shop::clearOperation(Order *node) {
+void Shop::clearOperation(Order* node) {
   if (node == nullptr) {
     return;
   }
