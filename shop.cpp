@@ -342,11 +342,15 @@ ostream& operator<<(ostream& sout, const Order& order) {
 
 //////////////////////////////////////////////////////////////
 Region::Region(int size){
+  m_size = 0;
+  m_capacity = size;
+  m_heap = new Shop[m_capacity + 1];
+}
+
+Region::~Region() {
 
 }
-Region::~Region(){
 
-}
 bool Region::addShop(Shop & aShop){
 
 }
