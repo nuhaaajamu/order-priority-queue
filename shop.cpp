@@ -365,7 +365,7 @@ void Region::upHeap(int index) {
     m_heap[childIndex] = m_heap[parentIndex];
     m_heap[parentIndex] = temp;
 
-    // Move upward,
+    // Move upward.
     childIndex = parentIndex;
     parentIndex = childIndex / 2;
   }
@@ -384,6 +384,30 @@ bool Region::addShop(Shop & aShop){
   // Sort the array to re-establish heap property.
   upHeap(m_size);
   return true;
+}
+
+void Region::downHeap(int index) {
+  int parentIndex = index;
+
+  while ((parentIndex * 2) <= m_size) {
+    int leftIndex = parentIndex * 2;
+    int rightIndex = (parentIndex * 2) + 1;
+    int smallerIndex = leftIndex;
+
+    // Determine smaller child if right child exists.
+    if ((rightIndex <= m_size) && (m_heap[rightIndex].m_regPrior < m_heap[leftIndex].m_regPrior)) {
+      smallerIndex = rightIndex;
+    }
+
+    // If child has higher priority, swap.
+    if (m_heap[smallerIndex].m_regPrior < m_heap[parentIndex].m_regPrior) {
+      Shop temp = m_heap[parentIndex];
+      m_heap[parentIndex] = m_heap[smallerIndex];
+      m_heap[smallerIndex] = temp;
+
+      parentIndex = smallerIndex;
+    }
+  }
 }
 
 bool Region::getShop(Shop & aShop){
