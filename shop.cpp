@@ -66,7 +66,7 @@ Order* Shop::copyOperation(Order* rhsNode) {
 }
 
 Shop::Shop(const Shop& rhs){
-  // // Copy member variables from rhs object.
+  // Copy member variables from rhs object.
   m_priorFunc = rhs.m_priorFunc;
   m_heapType = rhs.m_heapType;
   m_structure = rhs.m_structure;
@@ -79,9 +79,18 @@ Shop::Shop(const Shop& rhs){
 }
 
 Shop& Shop::operator=(const Shop& rhs) {
-
+  if (this != &rhs) {
+    clear();
+    m_priorFunc = rhs.m_priorFunc;
+    m_heapType = rhs.m_heapType;
+    m_structure = rhs.m_structure;
+    m_regPrior = rhs.m_regPrior;
+    m_shopID = rhs.m_shopID;
+    m_size = rhs.m_size;
+    m_heap = copyOperation(rhs.m_heap);
+  }
+  return *this;
 }
-
 
 Order* Shop::mergeOperation(Order* h1, Order* h2) {
   // Base Case
