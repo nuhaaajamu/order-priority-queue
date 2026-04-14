@@ -381,7 +381,7 @@ bool Region::addShop(Shop & aShop){
   m_size++;
   m_heap[m_size] = aShop;
 
-  // Sort the array to re-establish heap property.
+  // Re-establish heap property.
   upHeap(m_size);
   return true;
 }
@@ -411,7 +411,24 @@ void Region::downHeap(int index) {
 }
 
 bool Region::getShop(Shop & aShop){
+  // If queue is empty there is nothing to remove.
+  if (m_size == 0) {
+    return false;
+  }
 
+  // Retrieve the highest priority shop (root)
+  aShop = m_heap[ROOTINDEX];
+
+  // Last element becomes the root.
+  m_heap[ROOTINDEX] = m_heap[m_size];
+  m_size--;
+
+  // Re-establish heap property.
+  if (m_size > 0) {
+    downHeap(ROOTINDEX);
+  }
+
+  return true;
 }
 
 bool Region::getNthShop(Shop & aShop, int n){
