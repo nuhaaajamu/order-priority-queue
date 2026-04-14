@@ -173,10 +173,11 @@ class Shop{
      * Private function declarations go here! *
      ******************************************/
 
-    Order* mergeOperation(Order* h1, Order* h2); // Performs merge operations.
-    void rebuildOperation(Order* node);          // Performs rebuild operations.
-    void print(Order* node) const;               // Prints data from nodes in pre-order traversal.
-    void clearOperation(Order* node);
+    Order* mergeOperation(Order* h1, Order* h2); // Helper for mergeWithQueue(), insertOrder(), and getNextOrder() - performs merge operations.
+    void rebuildOperation(Order* node);          // Helper for setStructure() and setPriorityFn() - performs rebuild operations.
+    void print(Order* node) const;               // Helper for printOrdersQueue() - prints data from nodes in pre-order traversal.
+    void clearOperation(Order* node);            // Helper for clear() - clears the heap structure.
+    Order* copyOperation(Order* rhsNode);        // Helper for copy constructor - performs deep copy.
 };
 
 class Region{
