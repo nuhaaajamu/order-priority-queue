@@ -354,6 +354,23 @@ Region::~Region() {
   m_capacity = 0;
 }
 
+
+void Region::upHeap(int index) {
+  int childIndex = index;
+  int parentIndex = childIndex / 2;
+
+  while ((childIndex > ROOTINDEX) && (m_heap[childIndex].m_regPrior < m_heap[parentIndex].m_regPrior)) {
+    // Swap child with parent since it has higher priority.
+    Shop temp = m_heap[childIndex];
+    m_heap[childIndex] = m_heap[parentIndex];
+    m_heap[parentIndex] = temp;
+
+    // Move upward,
+    childIndex = parentIndex;
+    parentIndex = childIndex / 2;
+  }
+}
+
 bool Region::addShop(Shop & aShop){
 
 }
@@ -373,9 +390,11 @@ bool Region::setPriorityFn(prifn_t priFn, HEAPTYPE heapType, int n){
 bool Region::setStructure(STRUCTURE structure, int n){
 
 }
+
 bool Region::getOrder(Order & order){
 
 }
+
 void Region::dump(){
     dump(ROOTINDEX);
     cout << endl;
