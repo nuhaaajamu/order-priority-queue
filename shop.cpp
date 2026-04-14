@@ -471,7 +471,26 @@ bool Region::setStructure(STRUCTURE structure, int n){
 }
 
 bool Region::getOrder(Order & order){
+  // If there are no shops in the region heap, there is nothing to retrieve.
+  if (m_size == 0) {
+    return false;
+  }
 
+  Shop removedShop;
+
+  // Remove and discard empty shops that have higher priority.
+  while ((m_size > 0) && (m_heap[ROOTINDEX].numOrders() == 0)) {
+    getShop(removedShop);
+  }
+
+  // If all shops were empty, then there is no order to retrieve.
+  if (m_size == 0) {
+    return false;
+  }
+
+  // Retrieve the highest priority order from the highest priority shop.
+  order = m_heap[ROOTINDEX].getNextOrder();
+  return true;
 }
 
 void Region::dump(){
