@@ -47,8 +47,25 @@ void Shop::clear() {
   m_regPrior = 0;
 }
 
-Shop::Shop(const Shop& rhs)
-{
+Order* Shop::copyOperation(Order* rhsNode) {
+  // Base case
+  if (rhsNode == nullptr) {
+    return nullptr;
+  }
+
+  // Create new node and copy data from rhs node.
+  Order* newNode = new Order(rhsNode->m_item, rhsNode->m_count, rhsNode->m_membership,
+                             rhsNode->m_points, rhsNode->m_customerID, rhsNode->m_orderID);
+  newNode->m_npl = rhsNode->m_npl;
+
+  // Recursively copy the left and right children.
+  newNode->m_left = copyOperation(rhsNode->m_left);
+  newNode->m_right = copyOperation(rhsNode->m_right);
+
+  return newNode;
+}
+
+Shop::Shop(const Shop& rhs) {
 
 }
 
